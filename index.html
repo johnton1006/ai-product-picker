@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="面向电商卖家的选品推荐与竞品分析工作台">
+  <title>智选 AI · 选品工作台</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="catalog.js"></script>
+  <script defer src="selection.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#top"><span class="logo" aria-hidden="true">✦</span><span>智选 AI<small>电商选品助手</small></span></a>
+    <nav aria-label="工作台导航">
+      <a class="nav-current" href="#top"><span aria-hidden="true">▦</span>选品工作台</a>
+      <a href="#results"><span aria-hidden="true">☷</span>推荐结果</a>
+      <button id="catalog-open" type="button"><span aria-hidden="true">▤</span>样本商品库</button>
+    </nav>
+    <div class="sidebar-note"><span class="dot"></span><div>演示工作区<small>商品及分析证据均为模拟样本</small></div></div>
+  </aside>
+  <main id="top">
+    <header class="topbar"><span>选品工作台</span><span class="mode"><span class="dot"></span><span id="model-mode">规则分析模式</span></span></header>
+    <div class="content">
+      <header class="hero">
+        <div><p class="eyebrow">抖音电商 / 桌面收纳</p><h1>找到值得拿样的商品</h1><p>按售价和备货预算筛选，用竞品与评论证据判断拿样优先级。</p></div>
+        <div class="hero-art" aria-hidden="true"><span></span><span></span><span></span><b>✦</b></div>
+      </header>
+      <section class="panel criteria" aria-labelledby="criteria-title">
+        <div class="section-heading"><h2 id="criteria-title">选品条件</h2><button id="reset" class="text-button" type="button">恢复示例</button></div>
+        <form id="selection-form">
+          <div class="field-grid">
+            <div><label for="platform">销售平台</label><input id="platform" value="抖音电商" readonly></div>
+            <div><label for="category">商品品类</label><input id="category" value="桌面收纳" readonly></div>
+            <fieldset><legend>目标售价（元）</legend><div class="price-range"><input id="min-price" type="number" min="0.01" max="999999" step="0.01" value="39" required aria-label="最低售价"><span aria-hidden="true">–</span><input id="max-price" type="number" min="0.01" max="999999" step="0.01" value="99" required aria-label="最高售价"></div></fieldset>
+            <div><label for="budget">首批备货预算（元）</label><input id="budget" type="number" min="0" max="99999999" step="0.01" value="3000" required></div>
+          </div>
+          <div class="form-footer"><p>按采购单价 × 起订量估算单款首批备货成本。</p><button class="primary" type="submit"><span aria-hidden="true">✦</span> 开始选品</button></div>
+        </form>
+      </section>
+      <section id="results" aria-labelledby="results-title">
+        <div class="section-heading"><div><h2 id="results-title">推荐结果</h2><p id="result-count" role="status"></p></div><span class="pill">按综合评分排序</span></div>
+        <div id="result-list"></div>
+        <div id="pending"></div>
+      </section>
+    </div>
+  </main>
+  <dialog id="details" aria-labelledby="dialog-title">
+    <div class="dialog-header"><h2 id="dialog-title"></h2><form method="dialog"><button aria-label="关闭详情" class="icon-button">×</button></form></div>
+    <div id="dialog-body"></div>
+  </dialog>
+</body>
+</html>
