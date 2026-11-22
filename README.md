@@ -1,10 +1,10 @@
 # 智选 AI · 选品工作台
 
-一个面向抖音电商卖家的桌面收纳选品 Web 原型。填写售价区间和单款首批备货预算，查看候选商品、竞品证据和拿样风险。内置八款模拟商品，默认售价 39–99 元、预算 3000 元。
+一个面向抖音电商卖家的桌面收纳选品 Web 原型。200 条模拟商品来自 Excel 样本表，可按商品名、编号、类目、评论和拿样检查项检索，再按售价及单款首批备货预算筛选。默认售价 39–99 元、预算 3000 元，符合条件 78 条。
 
 ## 运行
 
-直接在浏览器打开 `index.html` 即可体验规则分析，无需安装依赖。也可在项目目录用 Python 3.9 或更高版本启动本地服务。
+直接在浏览器打开 `index.html` 即可检索和查看证据，无需安装依赖。可以搜索「理线」「滑轨」或「DS-001」。侧栏的「样本商品库」可以搜索全部记录。也可在项目目录用 Python 3.9 或更高版本启动本地服务。
 
 ```powershell
 python server.py
@@ -14,7 +14,19 @@ python server.py
 
 ## 模型分析
 
-在启动服务的终端中，通过环境变量配置 `PICKER_API_KEY` 和 `PICKER_MODEL`，再启动或重启服务。可选的 `PICKER_API_BASE` 默认为 `https://api.openai.com/v1`。自定义提供方须支持 Chat Completions 与 JSON 对象模式。密钥由服务端读取，模型只接收本次筛选条件和已入围商品的样本证据。模型失败时，页面保留规则分析结果。
+在 [OpenAI API Keys](https://platform.openai.com/api-keys) 创建自己的项目密钥，在本地 PowerShell 运行：
+
+```powershell
+python server.py --ask-key
+```
+
+出现提示后粘贴密钥并回车，输入时字符隐藏。终端关闭后，该次输入的密钥不会保留。访问 `http://127.0.0.1:8000`，点击「开始选品」后才会为前三款商品请求模型分析。API 用量与 ChatGPT 订阅分开计费。
+
+也可通过环境变量 `PICKER_API_KEY` 和 `PICKER_MODEL` 配置。交互模式默认 `gpt-5-mini`，可通过 `--model` 选择其他模型。可选的 `PICKER_API_BASE` 默认为 `https://api.openai.com/v1`。自定义提供方须支持 Chat Completions 与 JSON 对象模式。模型失败时，页面保留规则分析结果。
+
+## 更新样本库
+
+样本是由 Excel 转出的静态快照。更新 Excel 后，在安装了 `openpyxl` 的 Python 环境中运行 `python tools/build_catalog.py <工作簿路径>`，再刷新页面。页面使用已生成的 `catalog.js`，日常运行无需 Excel 或 `openpyxl`。
 
 ## 选品口径
 

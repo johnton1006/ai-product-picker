@@ -21,15 +21,19 @@
     <div class="sidebar-note"><span class="dot"></span><div>演示工作区<small>商品及分析证据均为模拟样本</small></div></div>
   </aside>
   <main id="top">
-    <header class="topbar"><span>选品工作台</span><span class="mode"><span class="dot"></span><span id="model-mode">规则分析模式</span></span></header>
+    <header class="topbar"><span>选品工作台</span><span class="mode"><span class="dot"></span><span id="model-mode">离线检索与规则分析</span></span></header>
     <div class="content">
       <header class="hero">
-        <div><p class="eyebrow">抖音电商 / 桌面收纳</p><h1>找到值得拿样的商品</h1><p>按售价和备货预算筛选，用竞品与评论证据判断拿样优先级。</p></div>
+        <div><p class="eyebrow">抖音电商 / 桌面收纳</p><h1>找到值得拿样的商品</h1><p>在 <span id="catalog-size">200</span> 条样本里搜索商品和评论，再按售价与备货预算筛选。</p></div>
         <div class="hero-art" aria-hidden="true"><span></span><span></span><span></span><b>✦</b></div>
       </header>
       <section class="panel criteria" aria-labelledby="criteria-title">
         <div class="section-heading"><h2 id="criteria-title">选品条件</h2><button id="reset" class="text-button" type="button">恢复示例</button></div>
         <form id="selection-form">
+          <div class="keyword-field">
+            <label for="keywords">搜索商品或证据</label>
+            <input id="keywords" type="search" maxlength="100" placeholder="例如：理线、滑轨、承重，多个关键词用空格分开">
+          </div>
           <div class="field-grid">
             <div><label for="platform">销售平台</label><input id="platform" value="抖音电商" readonly></div>
             <div><label for="category">商品品类</label><input id="category" value="桌面收纳" readonly></div>
@@ -40,8 +44,9 @@
         </form>
       </section>
       <section id="results" aria-labelledby="results-title">
-        <div class="section-heading"><div><h2 id="results-title">推荐结果</h2><p id="result-count" role="status"></p></div><span class="pill">按综合评分排序</span></div>
+        <div class="section-heading"><div><h2 id="results-title">推荐结果</h2><p id="result-count" role="status"></p></div><span id="sort-label" class="pill">按综合评分排序</span></div>
         <div id="result-list"></div>
+        <button id="toggle-results" type="button" class="secondary" hidden></button>
         <div id="pending"></div>
       </section>
     </div>

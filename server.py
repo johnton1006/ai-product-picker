@@ -1,6 +1,7 @@
 """Serve the workbench and optionally request evidence-grounded model summaries."""
 
 import argparse
+from getpass import getpass
 import json
 import math
 import os
@@ -157,7 +158,20 @@ class WorkbenchHandler(BaseHTTPRequestHandler):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--port", type=int, default=8000)
+    parser.add_argument("--ask-key", action="store_true", help="Prompt for the API key without echoing it.")
+    parser.add_argument("--model", help="Model ID. Defaults to PICKER_MODEL or gpt-5-mini in prompt mode.")
     args = parser.parse_args()
+    if args.ask_key:
+        try:
+            key = getpass("OpenAI API key (input hidden): ").strip()
+        except (EOFError, KeyboardInterrupt):
+            parser.error("API key entry cancelled.")
+        if not key:
+            parser.error("API key cannot be empty. Omit --ask-key for offline mode.")
+        os.environ["PICKER_API_KEY"] = key
+        os.environ.setdefault("PICKER_MODEL", "gpt-5-mini")
+    if args.model:
+        os.environ["PICKER_MODEL"] = args.model
     with ThreadingHTTPServer(("127.0.0.1", args.port), WorkbenchHandler) as server:
         print(f"选品工作台 http://127.0.0.1:{server.server_port}", flush=True)
         server.serve_forever()
